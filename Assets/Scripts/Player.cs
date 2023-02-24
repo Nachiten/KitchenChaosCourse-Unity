@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,17 +6,42 @@ public class Player : MonoBehaviour
     [SerializeField] private GameInput gameInput;
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private LayerMask countersLayerMask;
+    
     private bool isWalking;
     private Vector3 lastInteractDir;
+    private ClearCounter selectedCounter;
 
     private void Start()
     {
         gameInput.OnInteract += OnInteract;
     }
 
+    private void OnInteract()
+    {
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
+
+        if (moveDir != Vector3.zero)
+            lastInteractDir = moveDir;
+
+        const float interactionDistance = 2f;
+        
+        // Draw same raycast
+        Debug.DrawRay(transform.position, lastInteractDir * interactionDistance, Color.red, 3f);
+        
+        if (!Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactionDistance, countersLayerMask))
+            return;
+
+        if (!raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            return;
+        
+        clearCounter.Interact();
+    }
+
     private void Update()
     {
         HandleMovement();
+        HandleInteraction();
     }
 
     public bool IsWalking()
@@ -61,10 +85,8 @@ public class Player : MonoBehaviour
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
     }
 
-    private void OnInteract()
+    private void HandleInteraction()
     {
-        Debug.Log("Counter interact!");
-        
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
         Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
 
@@ -72,12 +94,16 @@ public class Player : MonoBehaviour
             lastInteractDir = moveDir;
 
         const float interactionDistance = 2f;
+        
+        // Draw same raycast
+        Debug.DrawRay(transform.position, lastInteractDir * interactionDistance, Color.red, 3f);
+        
         if (!Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactionDistance, countersLayerMask))
             return;
-        
+
         if (!raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
             return;
         
-        clearCounter.Interact();
+        //clearCounter.Interact();
     }
 }
