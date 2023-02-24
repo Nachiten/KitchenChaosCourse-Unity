@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +9,15 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask countersLayerMask;
     private bool isWalking;
     private Vector3 lastInteractDir;
-    
+
+    private void Start()
+    {
+        gameInput.OnInteract += OnInteract;
+    }
+
     private void Update()
     {
         HandleMovement();
-        HandleInteractions();
     }
 
     public bool IsWalking()
@@ -56,8 +61,10 @@ public class Player : MonoBehaviour
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
     }
 
-    private void HandleInteractions()
+    private void OnInteract()
     {
+        Debug.Log("Counter interact!");
+        
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
         Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
 
