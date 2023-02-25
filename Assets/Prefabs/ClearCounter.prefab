@@ -278,3 +278,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e65f7fb456dcb3040b68df0974c090eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clearCounter: {fileID: 6670274826025319810}
+  visualGameObject: {fileID: 5212405593252744678}
+--- !u!1 &5212405593252744678 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8489276541531669327, guid: 0004cb1e11ad014419b943c7da960724,
+    type: 3}
+  m_PrefabInstance: {fileID: 4438815629454839465}
+  m_PrefabAsset: {fileID: 0}

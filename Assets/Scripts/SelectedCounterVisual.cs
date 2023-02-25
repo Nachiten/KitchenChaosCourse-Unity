@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class SelectedCounterVisual : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private ClearCounter clearCounter;
+    [SerializeField] private GameObject visualGameObject;
+    
+    private void Start()
     {
-        
+        Player.Instance.OnSelectedCounterChanged += OnSelectedCounterChanged;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnSelectedCounterChanged(ClearCounter newClearCounter)
     {
-        
+        visualGameObject.SetActive(newClearCounter == clearCounter);
     }
 }

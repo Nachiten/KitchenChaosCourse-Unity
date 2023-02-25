@@ -6,11 +6,11 @@ public class GameInput : MonoBehaviour
 {
     public event Action OnInteract;
     private PlayerInputActions playerInputActions;
-    
+
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
-        
+
         playerInputActions.Player.Enable();
         playerInputActions.Player.Interact.performed += InteractPerformed;
     }
