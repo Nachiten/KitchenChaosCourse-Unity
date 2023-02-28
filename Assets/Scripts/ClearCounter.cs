@@ -1,35 +1,24 @@
-using System;
 using UnityEngine;
 
-public class ClearCounter : MonoBehaviour
+public class ClearCounter : MonoBehaviour, IKitchenObjectParent
 {
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
     [SerializeField] private Transform counterSpawnPoint;
     
     private KitchenObject kitchenObject;
     
-    [SerializeField] private ClearCounter secondClearCounter;
-    [SerializeField] private bool testing;
-    
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T) && testing)
-        {
-            if (kitchenObject != null)
-                kitchenObject.SetClearCounter(secondClearCounter);
-        }
-    }
-
-    public void Interact()
+    public void Interact(Player player)
     {
         if (kitchenObject == null)
         {
+            // There is no object, spawn one
             Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab, counterSpawnPoint);
-            kitchenObjectTransform.GetComponent<KitchenObject>().SetClearCounter(this);
+            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(this);
         }
         else 
         {
-             Debug.Log(kitchenObject.GetClearCounter());
+             // Give the object to the player
+             kitchenObject.SetKitchenObjectParent(player);
         }
     }
     

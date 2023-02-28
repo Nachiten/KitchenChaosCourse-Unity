@@ -2,17 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Singleton<Player>
+public class Player : Singleton<Player>, IKitchenObjectParent
 {
     public event Action<ClearCounter> OnSelectedCounterChanged; 
 
     [SerializeField] private GameInput gameInput;
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private LayerMask countersLayerMask;
+    [SerializeField] private Transform kitchenObjectHoldPoint;
 
     private bool isWalking;
     private Vector3 lastInteractDir;
     private ClearCounter selectedCounter;
+    
+    private KitchenObject kitchenObject;
 
     private void Start()
     {
@@ -22,7 +25,7 @@ public class Player : Singleton<Player>
     private void OnInteract()
     {
         if (selectedCounter != null)
-            selectedCounter.Interact();
+            selectedCounter.Interact(this);
     }
 
     private void Update()
@@ -93,48 +96,18 @@ public class Player : Singleton<Player>
             interactionDistance, 
             countersLayerMask);
 
-        // if (!raycastDidHit)
-        // {
-        //     SetSelectedCounter(null);
-        //     return;
-        // }
-        //
-        // if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter) && clearCounter != selectedCounter)
-        // {
-        //     SetSelectedCounter(clearCounter);
-        //     return;
-        // }
-        //
-        // SetSelectedCounter(null);
-        
         if (raycastDidHit)
         {
             if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
             {
                 if (clearCounter != selectedCounter)
                     SetSelectedCounter(clearCounter);
-                else
-                {
-                    // Nada
-                }
             }
             else 
                 SetSelectedCounter(null);
         }
         else
             SetSelectedCounter(null);
-        
-        // if (raycastDidHit && raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
-        // {
-        //     if (selectedCounter == clearCounter)
-        //         return;
-        //
-        //     selectedCounter = clearCounter;
-        // }
-        // else
-        //     selectedCounter = null;
-        //
-        // OnSelectedCounterChanged?.Invoke(selectedCounter);
     }
     
     private void SetSelectedCounter(ClearCounter newClearCounter)
@@ -145,4 +118,14 @@ public class Player : Singleton<Player>
         selectedCounter = newClearCounter;
         OnSelectedCounterChanged?.Invoke(selectedCounter);
     }
+
+    public Transform GetCounterSpawnPoint() => kitchenObjectHoldPoint;
+    
+    public void SetKitchenObject(KitchenObject _kitchenObject) => kitchenObject = _kitchenObject;
+    
+    public KitchenObject GetKitchenObject() => kitchenObject;
+    
+    public void ClearKitchenObject() => kitchenObject = null;
+    
+    public bool HasKitchenObject() => kitchenObject != null;
 }
