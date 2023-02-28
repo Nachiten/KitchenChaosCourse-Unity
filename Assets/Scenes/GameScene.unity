@@ -543,6 +543,18 @@ MonoBehaviour:
   m_AmplitudeGain: 0.3
   m_FrequencyGain: 0.3
   mNoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &615571077 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6670274826025319810, guid: df1659b4e4778d14fa687df229a9c446,
+    type: 3}
+  m_PrefabInstance: {fileID: 1476300808}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d0285c141c859345982e147e6ceb017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &648982303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,5 +1103,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 6670274826025319810, guid: df1659b4e4778d14fa687df229a9c446,
+        type: 3}
+      propertyPath: testing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6670274826025319810, guid: df1659b4e4778d14fa687df229a9c446,
+        type: 3}
+      propertyPath: secondClearCounter
+      value: 
+      objectReference: {fileID: 615571077}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df1659b4e4778d14fa687df229a9c446, type: 3}
