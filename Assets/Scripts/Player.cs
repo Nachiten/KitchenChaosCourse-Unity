@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : Singleton<Player>, IKitchenObjectParent
 {
-    public event Action<ClearCounter> OnSelectedCounterChanged; 
+    public event Action<BaseCounter> OnSelectedCounterChanged; 
 
     [SerializeField] private GameInput gameInput;
     [SerializeField] private float moveSpeed = 7f;
@@ -13,7 +13,7 @@ public class Player : Singleton<Player>, IKitchenObjectParent
 
     private bool isWalking;
     private Vector3 lastInteractDir;
-    private ClearCounter selectedCounter;
+    private BaseCounter selectedCounter;
     
     private KitchenObject kitchenObject;
 
@@ -96,26 +96,22 @@ public class Player : Singleton<Player>, IKitchenObjectParent
             interactionDistance, 
             countersLayerMask);
 
-        if (raycastDidHit)
+        if (!raycastDidHit || !raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
         {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
-            {
-                if (clearCounter != selectedCounter)
-                    SetSelectedCounter(clearCounter);
-            }
-            else 
-                SetSelectedCounter(null);
-        }
-        else
             SetSelectedCounter(null);
+            return;
+        }
+
+        if (baseCounter != selectedCounter)
+            SetSelectedCounter(baseCounter);
     }
     
-    private void SetSelectedCounter(ClearCounter newClearCounter)
+    private void SetSelectedCounter(BaseCounter newBaseCounter)
     {
-        if (newClearCounter == selectedCounter)
+        if (newBaseCounter == selectedCounter)
             return;
         
-        selectedCounter = newClearCounter;
+        selectedCounter = newBaseCounter;
         OnSelectedCounterChanged?.Invoke(selectedCounter);
     }
 
