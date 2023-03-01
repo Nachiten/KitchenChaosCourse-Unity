@@ -4,6 +4,7 @@ using UnityEngine;
 public class ContainerCounterVisual : MonoBehaviour
 {
     [SerializeField] private ContainerCounter containerCounter;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     
     private Animator animator;
     private static readonly int OpenClose = Animator.StringToHash("OpenClose");
@@ -16,6 +17,7 @@ public class ContainerCounterVisual : MonoBehaviour
     private void Start()
     {
         containerCounter.OnPlayerGrabbedObject += OnPlayerGrabbedObject;
+        spriteRenderer.sprite = containerCounter.GetKitchenObjectSO().sprite;
     }
 
     private void OnPlayerGrabbedObject()

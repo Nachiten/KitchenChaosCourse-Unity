@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfdb79c27ecb22c4485d25131da8bbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kitchenObjectSO: {fileID: 11400000, guid: 87e4a38ca5f384047ad3424c50d1277f, type: 2}
+  kitchenObjectSO: {fileID: 0}
   counterSpawnPoint: {fileID: 4699312694788012405}
 --- !u!4 &4699312694788012405 stripped
 Transform:
@@ -554,8 +554,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4841286013473667211, guid: 9a9137fa2b035d34e881701d2c178192,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841286013473667211, guid: 9a9137fa2b035d34e881701d2c178192,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841286013473667211, guid: 9a9137fa2b035d34e881701d2c178192,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0d6e1281049dccc4189bf308b2ccf331,
+        type: 3}
+    - target: {fileID: 4841286013473667211, guid: 9a9137fa2b035d34e881701d2c178192,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9137fa2b035d34e881701d2c178192, type: 3}
+--- !u!212 &2827039626317727951 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4841286013473667211, guid: 9a9137fa2b035d34e881701d2c178192,
+    type: 3}
+  m_PrefabInstance: {fileID: 7211417995115311172}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6603941107142776046 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4589716710238282922, guid: 9a9137fa2b035d34e881701d2c178192,
@@ -575,3 +602,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   containerCounter: {fileID: 5319170156620467333}
+  spriteRenderer: {fileID: 2827039626317727951}

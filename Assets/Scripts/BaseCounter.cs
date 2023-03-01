@@ -14,6 +14,8 @@ public abstract class BaseCounter : MonoBehaviour, IKitchenObjectParent
     
     public KitchenObject GetKitchenObject() => kitchenObject;
     
+    public KitchenObjectSO GetKitchenObjectSO() => kitchenObjectSO;
+    
     public void ClearKitchenObject() => kitchenObject = null;
     
     public bool HasKitchenObject() => kitchenObject != null;
