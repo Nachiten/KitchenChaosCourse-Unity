@@ -20,6 +20,13 @@ public class Player : Singleton<Player>, IKitchenObjectParent
     private void Start()
     {
         gameInput.OnInteract += OnInteract;
+        gameInput.OnInteractAlternate += OnInteractAlternate;
+    }
+
+    private void OnInteractAlternate()
+    {
+        if (selectedCounter != null)
+            selectedCounter.InteractAlternate(this);
     }
 
     private void OnInteract()
@@ -54,10 +61,19 @@ public class Player : Singleton<Player>, IKitchenObjectParent
         // Try to move normally, if not, try to move in the x or z direction only
         bool canMove = false;
         List<Vector3> possibleMoveDirs = new() {moveDir, moveDirX, moveDirZ};
-
-        foreach (Vector3 dir in possibleMoveDirs)
+        
+        for (int index = 0; index < possibleMoveDirs.Count; index++)
         {
-            canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight,
+            // Player can rotate if they are moving in the x or z direction
+            bool condition = index switch
+            {
+                1 => moveDir.x != 0,
+                2 => moveDir.z != 0,
+                _ => true
+            };
+
+            Vector3 dir = possibleMoveDirs[index];
+            canMove = condition && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight,
                 playerRadius, dir, moveDistance);
 
             if (!canMove)

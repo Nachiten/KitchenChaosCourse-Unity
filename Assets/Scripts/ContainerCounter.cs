@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ContainerCounter : BaseCounter
 {
+    [SerializeField] private KitchenObjectSO kitchenObjectSO;
+    
     public event Action OnPlayerGrabbedObject;
     
     public override void Interact(Player player)
@@ -12,9 +14,15 @@ public class ContainerCounter : BaseCounter
             return;
         
         // Player doesn't have object, spawn one and give it to them
-        Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
-        kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
-        
+        KitchenObject.SpawnKitchenObject(kitchenObjectSO, player);
+
         OnPlayerGrabbedObject?.Invoke();
     }
+
+    public override void InteractAlternate(Player player)
+    {
+        // Do nothing
+    }
+
+    public KitchenObjectSO GetKitchenObjectSO() => kitchenObjectSO;
 }
