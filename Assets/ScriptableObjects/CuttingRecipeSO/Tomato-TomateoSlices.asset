@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628a449c0f10a1b4ca9aebc3fbb205e1, type: 3}
+  m_Name: Tomato-TomateoSlices
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: 87e4a38ca5f384047ad3424c50d1277f, type: 2}
+  output: {fileID: 11400000, guid: eb66c7570280af749a0720c879812cb6, type: 2}
