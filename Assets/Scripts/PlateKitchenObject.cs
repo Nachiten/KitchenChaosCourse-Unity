@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlateKitchenObject : KitchenObject
 {
     [SerializeField] private List<KitchenObjectSO> validKitchenObjectSOs;
+
+    public event Action<KitchenObjectSO> OnIngredientAdded;
     
     private List<KitchenObjectSO> kitchenObjectSOs;
 
@@ -25,6 +27,7 @@ public class PlateKitchenObject : KitchenObject
         
         // Add ingredient to the plate
         kitchenObjectSOs.Add(kitchenObjectSO);
+        OnIngredientAdded?.Invoke(kitchenObjectSO);
         return true;
     }
 }
