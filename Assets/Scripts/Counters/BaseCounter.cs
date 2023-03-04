@@ -6,9 +6,12 @@ public abstract class BaseCounter : MonoBehaviour, IKitchenObjectParent
     private KitchenObject kitchenObject;
     
     public abstract void Interact(Player player);
-    
-    public abstract void InteractAlternate(Player player);
-    
+
+    public virtual void InteractAlternate(Player player)
+    {
+        // Optional function to override
+    }
+
     public Transform GetCounterSpawnPoint() => counterSpawnPoint;
     
     public void SetKitchenObject(KitchenObject _kitchenObject) => kitchenObject = _kitchenObject;

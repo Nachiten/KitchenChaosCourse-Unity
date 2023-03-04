@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public class CuttingCounter : BaseCounter
+public class CuttingCounter : BaseCounter, IHasProgress
 {
-    public event Action<float> OnProgressChanged;
-    
     [SerializeField] private CuttingRecipeSO[] cuttingRecipes;
+    
+    public event Action<float> OnProgressChanged;
 
     private int cuttingProgress;
     
