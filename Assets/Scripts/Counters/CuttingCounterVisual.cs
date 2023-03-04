@@ -5,7 +5,7 @@ public class CuttingCounterVisual : MonoBehaviour
     [SerializeField] private CuttingCounter cuttingCounter;
 
     private Animator animator;
-    private readonly int Cut = Animator.StringToHash("Cut");
+    private readonly int CutTrigger = Animator.StringToHash("Cut");
 
     private void Awake()
     {
@@ -22,6 +22,6 @@ public class CuttingCounterVisual : MonoBehaviour
         if (progress == 0f)
             return;
         
-        animator.SetTrigger(Cut);
+        animator.SetTrigger(CutTrigger);
     }
 }
