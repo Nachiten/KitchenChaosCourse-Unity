@@ -22,12 +22,30 @@ public class CuttingCounter : BaseCounter, IHasProgress
             CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOFromInput(GetKitchenObject().GetKitchenObjectSO());
             
             OnProgressChanged?.Invoke((float) cuttingProgress / cuttingRecipeSO.cuttingProgressMax);
+            return;
         }
         
-        // There is an object on the counter, and player does not have one
-        else if (HasKitchenObject() && !player.HasKitchenObject())
-            // Pick up the counter item
+        // There is no object on the counter
+        if (!HasKitchenObject()) 
+            return;
+        
+        // Player picks up the object on the counter
+        if (!player.HasKitchenObject())
+        {
             GetKitchenObject().SetKitchenObjectParent(player);
+            return;
+        }
+           
+        // Check if player has a plate
+        if (!player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+            return;
+
+        // Check if the plate can add the ingredient
+        if (!plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+            return;
+
+        // Player adds the object on the counter to their plate
+        GetKitchenObject().DestroySelf();
     }
 
     public override void InteractAlternate(Player player)

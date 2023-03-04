@@ -48,7 +48,7 @@ public class StoveCounter : BaseCounter, IHasProgress
                 // Nothing
                 break;
             case State.Frying:
-                if (ExecuteTimerFinished())
+                if (TryFinishTimer())
                 {
                     // Set the burning recipe
                     fryingRecipeSO = GetFryingRecipeSOFromInput(GetKitchenObject().GetKitchenObjectSO());
@@ -59,7 +59,7 @@ public class StoveCounter : BaseCounter, IHasProgress
                 
                 break;
             case State.Burning:
-                if (ExecuteTimerFinished())
+                if (TryFinishTimer())
                     ChangeState(State.Burned);
 
                 break;
@@ -70,7 +70,7 @@ public class StoveCounter : BaseCounter, IHasProgress
         }
     }
 
-    private bool ExecuteTimerFinished()
+    private bool TryFinishTimer()
     {
         timer += Time.deltaTime;
         OnProgressChanged?.Invoke(timer / fryingRecipeSO.fryingTimerMax);
@@ -96,27 +96,48 @@ public class StoveCounter : BaseCounter, IHasProgress
     public override void Interact(Player player)
     {
         // There is no object on the counter, and player has one
-        if (!HasKitchenObject() && player.HasKitchenObject() && HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO()))
-            // Place the player item on the counter
+        if (!HasKitchenObject() && player.HasKitchenObject() && 
+            HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO()))
         {
+            // Place the player item on the counter
             player.GetKitchenObject().SetKitchenObjectParent(this);
             
             fryingRecipeSO = GetFryingRecipeSOFromInput(GetKitchenObject().GetKitchenObjectSO());
             ChangeState(State.Frying);
             ResetTimer();
+            return;
         }
         
-        // There is an object on the counter, and player does not have one
-        else if (HasKitchenObject() && !player.HasKitchenObject())
+        // There is no object on the counter
+        if (!HasKitchenObject()) 
+            return;
+        
+        if (player.HasKitchenObject())
         {
-            // Pick up the counter item
-            GetKitchenObject().SetKitchenObjectParent(player);
+            Debug.Log("Llego aca");
             
-            // Reset the state
+            // Check if player has a plate
+            if (!player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                return;
+
+            // Check if the plate can add the ingredient
+            if (!plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                return;
+
+            // Player adds the object on the counter to their plate
+            GetKitchenObject().DestroySelf();
             ChangeState(State.Idle);
-            
-            OnProgressChanged?.Invoke(0f);
+            ResetTimer();
+            return;
         }
+            
+        // Pick up the counter item
+        GetKitchenObject().SetKitchenObjectParent(player);
+
+        // Reset the state
+        ChangeState(State.Idle);
+
+        OnProgressChanged?.Invoke(0f);
     }
     
     private bool HasRecipeWithInput(KitchenObjectSO input)
