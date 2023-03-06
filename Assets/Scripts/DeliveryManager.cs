@@ -1,10 +1,15 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DeliveryManager : Singleton<DeliveryManager>
 {
     [SerializeField] private RecipeListSO recipeListSO;
 
+    public event Action OnRecipeSpawned;
+    public event Action OnRecipeCompleted;
+    
     private List<RecipeSO> waitingRecipes;
 
     private float spawnRecipeTimer;
@@ -34,6 +39,8 @@ public class DeliveryManager : Singleton<DeliveryManager>
         waitingRecipes.Add(waitingRecipeSO);
         
         Debug.Log($"New recipe: {waitingRecipeSO.recipeName}");
+        
+        OnRecipeSpawned?.Invoke();
     }
 
     public void DeliverRecipe(PlateKitchenObject plateKitchenObject)
@@ -75,10 +82,16 @@ public class DeliveryManager : Singleton<DeliveryManager>
             // The plate contents match the recipe, player delivered the correct recipe
             Debug.Log($"Delivered CORRECT recipe: {waitingRecipe.recipeName}");
             waitingRecipes.Remove(waitingRecipe);
+            OnRecipeCompleted?.Invoke();
             return;
         }
         
         // Player did not deliver a correct recipe
         Debug.Log("Delivered INCORRECT recipe");
+    }
+    
+    public List<RecipeSO> GetWaitingRecipes()
+    {
+        return waitingRecipes;
     }
 }
