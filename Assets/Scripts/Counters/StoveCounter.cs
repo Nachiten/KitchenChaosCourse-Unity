@@ -9,7 +9,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     public event Action<float> OnProgressChanged;
     public event Action<State> OnStateChanged;
     
-    private float timer;
+    private float cookingTimer;
     private FryingRecipeSO fryingRecipeSO;
     private State state;
     
@@ -72,11 +72,11 @@ public class StoveCounter : BaseCounter, IHasProgress
 
     private bool TryFinishTimer()
     {
-        timer += Time.deltaTime;
-        OnProgressChanged?.Invoke(timer / fryingRecipeSO.fryingTimerMax);
+        cookingTimer += Time.deltaTime;
+        OnProgressChanged?.Invoke(cookingTimer / fryingRecipeSO.fryingTimerMax);
 
         // Timer is not finished
-        if (timer < fryingRecipeSO.fryingTimerMax)
+        if (cookingTimer < fryingRecipeSO.fryingTimerMax)
             return false;
                 
         ResetTimer();
@@ -89,7 +89,7 @@ public class StoveCounter : BaseCounter, IHasProgress
 
     private void ResetTimer()
     {
-        timer = 0f;
+        cookingTimer = 0f;
         OnProgressChanged?.Invoke(0f);
     }
 

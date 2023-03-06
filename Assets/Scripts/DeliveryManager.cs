@@ -9,6 +9,8 @@ public class DeliveryManager : Singleton<DeliveryManager>
 
     public event Action OnRecipeSpawned;
     public event Action OnRecipeCompleted;
+    public event Action OnRecipeSuccess;
+    public event Action OnRecipeFailed;
     
     private List<RecipeSO> waitingRecipes;
 
@@ -83,11 +85,13 @@ public class DeliveryManager : Singleton<DeliveryManager>
             Debug.Log($"Delivered CORRECT recipe: {waitingRecipe.recipeName}");
             waitingRecipes.Remove(waitingRecipe);
             OnRecipeCompleted?.Invoke();
+            OnRecipeSuccess?.Invoke();
             return;
         }
         
         // Player did not deliver a correct recipe
         Debug.Log("Delivered INCORRECT recipe");
+        OnRecipeFailed?.Invoke();
     }
     
     public List<RecipeSO> GetWaitingRecipes()

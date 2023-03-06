@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public abstract class BaseCounter : MonoBehaviour, IKitchenObjectParent
 {
+    public static event Action<BaseCounter> OnAnyObjectPlaced;
+    
     [SerializeField] protected Transform counterSpawnPoint;
     private KitchenObject kitchenObject;
     
@@ -14,7 +17,13 @@ public abstract class BaseCounter : MonoBehaviour, IKitchenObjectParent
 
     public Transform GetCounterSpawnPoint() => counterSpawnPoint;
     
-    public void SetKitchenObject(KitchenObject _kitchenObject) => kitchenObject = _kitchenObject;
+    public void SetKitchenObject(KitchenObject _kitchenObject)
+    {
+        kitchenObject = _kitchenObject;
+        
+        if (kitchenObject != null)
+            OnAnyObjectPlaced?.Invoke(this);
+    }
     
     public KitchenObject GetKitchenObject() => kitchenObject;
     

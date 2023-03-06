@@ -5,7 +5,8 @@ using UnityEngine;
 public class Player : Singleton<Player>, IKitchenObjectParent
 {
     public event Action<BaseCounter> OnSelectedCounterChanged; 
-
+    public event Action OnPickedSomething;
+    
     [SerializeField] private GameInput gameInput;
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private LayerMask countersLayerMask;
@@ -133,7 +134,13 @@ public class Player : Singleton<Player>, IKitchenObjectParent
 
     public Transform GetCounterSpawnPoint() => kitchenObjectHoldPoint;
     
-    public void SetKitchenObject(KitchenObject _kitchenObject) => kitchenObject = _kitchenObject;
+    public void SetKitchenObject(KitchenObject _kitchenObject)
+    {
+        kitchenObject = _kitchenObject;
+        
+        if (kitchenObject != null)
+            OnPickedSomething?.Invoke();
+    }
     
     public KitchenObject GetKitchenObject() => kitchenObject;
     

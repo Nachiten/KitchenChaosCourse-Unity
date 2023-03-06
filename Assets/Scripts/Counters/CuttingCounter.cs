@@ -5,7 +5,8 @@ using UnityEngine;
 public class CuttingCounter : BaseCounter, IHasProgress
 {
     [SerializeField] private CuttingRecipeSO[] cuttingRecipes;
-    
+
+    public static event Action<CuttingCounter> OnAnyCut;
     public event Action<float> OnProgressChanged;
 
     private int cuttingProgress;
@@ -62,6 +63,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
 
         cuttingProgress++;
         OnProgressChanged?.Invoke((float) cuttingProgress / cuttingRecipeSO.cuttingProgressMax);
+        OnAnyCut?.Invoke(this);
         
         // If the cutting progress is not yet at the max, return
         if (cuttingProgress < cuttingRecipeSO.cuttingProgressMax)
