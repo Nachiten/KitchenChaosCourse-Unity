@@ -17,11 +17,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
             // Place the player item on the counter
         {
             player.GetKitchenObject().SetKitchenObjectParent(this);
+            
             cuttingProgress = 0;
-            
-            CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOFromInput(GetKitchenObject().GetKitchenObjectSO());
-            
-            OnProgressChanged?.Invoke((float) cuttingProgress / cuttingRecipeSO.cuttingProgressMax);
+            OnProgressChanged?.Invoke(0f);
             return;
         }
         
@@ -33,6 +31,10 @@ public class CuttingCounter : BaseCounter, IHasProgress
         if (!player.HasKitchenObject())
         {
             GetKitchenObject().SetKitchenObjectParent(player);
+            
+            cuttingProgress = 0;
+            OnProgressChanged?.Invoke(0f);
+            
             return;
         }
            
@@ -56,9 +58,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
         if (!HasKitchenObject() || !HasRecipeWithInput(currentKitchenObjectSO))
             return;
         
-        cuttingProgress++;
         CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOFromInput(currentKitchenObjectSO);
 
+        cuttingProgress++;
         OnProgressChanged?.Invoke((float) cuttingProgress / cuttingRecipeSO.cuttingProgressMax);
         
         // If the cutting progress is not yet at the max, return
