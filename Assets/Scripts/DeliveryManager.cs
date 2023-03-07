@@ -15,9 +15,9 @@ public class DeliveryManager : Singleton<DeliveryManager>
     private List<RecipeSO> waitingRecipes;
 
     private float spawnRecipeTimer;
-    
     private const float spawnRecipeInterval = 4f;
     private const int waitingRecipesMax = 4;
+    private int successfulRecipesDelivered;
 
     protected override void Awake()
     {
@@ -86,6 +86,7 @@ public class DeliveryManager : Singleton<DeliveryManager>
             waitingRecipes.Remove(waitingRecipe);
             OnRecipeCompleted?.Invoke();
             OnRecipeSuccess?.Invoke();
+            successfulRecipesDelivered++;
             return;
         }
         
@@ -98,4 +99,6 @@ public class DeliveryManager : Singleton<DeliveryManager>
     {
         return waitingRecipes;
     }
+    
+    public int GetSuccessfulRecipesDelivered() => successfulRecipesDelivered;
 }

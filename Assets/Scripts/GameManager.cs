@@ -7,7 +7,8 @@ public class GameManager : Singleton<GameManager>
  
     private float waitingToStartTimer = 1f;
     private float countdownToStartTimer = 3f;
-    private float gamePlayingTimer = 10f;
+    private float gamePlayingTimer;
+    private const float gamePlayingTimerMax = 60f;
     
     private State state;
     
@@ -43,7 +44,11 @@ public class GameManager : Singleton<GameManager>
             case State.CountdownToStart:
                 countdownToStartTimer -= Time.deltaTime;
                 if (countdownToStartTimer <= 0)
+                {
                     ChangeState(State.GamePlaying);
+                    gamePlayingTimer = gamePlayingTimerMax;
+                }
+                
                 break;
             case State.GamePlaying:
                 gamePlayingTimer -= Time.deltaTime;
@@ -58,11 +63,12 @@ public class GameManager : Singleton<GameManager>
         
         Debug.Log(state);
     }
-    
-    public bool IsCountdownToStart() => state == State.CountdownToStart;
-    
-    public bool IsGamePlaying() => state == State.GamePlaying;
-    
     public float GetCountdownToStartTimer() => countdownToStartTimer;
+    public bool IsCountdownToStart() => state == State.CountdownToStart;
+    public bool IsGamePlaying() => state == State.GamePlaying;
+
+    public bool IsGameOver() => state == State.GameOver;
+    
+    public float GetGamePlayingTimerNormalized() => 1 - gamePlayingTimer / gamePlayingTimerMax;
     
 }
