@@ -5,7 +5,7 @@ public class GameManager : Singleton<GameManager>
 {
     public event Action OnStateChanged;
  
-    private float waitingToStartTimer = 1f;
+    private float waitingToStartTimer = 3f;
     private float countdownToStartTimer = 3f;
     private float gamePlayingTimer;
     private const float gamePlayingTimerMax = 60f;
