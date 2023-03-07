@@ -24,16 +24,22 @@ public class Player : Singleton<Player>, IKitchenObjectParent
         gameInput.OnInteractAlternate += OnInteractAlternate;
     }
 
-    private void OnInteractAlternate()
-    {
-        if (selectedCounter != null)
-            selectedCounter.InteractAlternate(this);
-    }
-
     private void OnInteract()
     {
+        if (!GameManager.Instance.IsGamePlaying())
+            return;
+        
         if (selectedCounter != null)
             selectedCounter.Interact(this);
+    }
+    
+    private void OnInteractAlternate()
+    {
+        if (!GameManager.Instance.IsGamePlaying())
+            return;
+        
+        if (selectedCounter != null)
+            selectedCounter.InteractAlternate(this);
     }
 
     private void Update()
