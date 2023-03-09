@@ -10,7 +10,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
     public event Action<float> OnProgressChanged;
 
     private int cuttingProgress;
-    
+
     public override void Interact(Player player)
     {
         // There is no object on the counter, and player has one
@@ -92,4 +92,6 @@ public class CuttingCounter : BaseCounter, IHasProgress
     {
         return (from cuttingRecipe in cuttingRecipes where cuttingRecipe.input == input select cuttingRecipe).FirstOrDefault();
     }
+    
+    public new static void ResetStaticData() => OnAnyCut = null;
 }

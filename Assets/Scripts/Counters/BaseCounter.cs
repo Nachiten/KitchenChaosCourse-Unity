@@ -30,4 +30,6 @@ public abstract class BaseCounter : MonoBehaviour, IKitchenObjectParent
     public void ClearKitchenObject() => kitchenObject = null;
     
     public bool HasKitchenObject() => kitchenObject != null;
+    
+    public static void ResetStaticData() => OnAnyObjectPlaced = null;
 }

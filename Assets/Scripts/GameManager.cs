@@ -4,11 +4,14 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public event Action OnStateChanged;
+    public event Action<bool> OnTogglePause;
  
     private float waitingToStartTimer = 3f;
     private float countdownToStartTimer = 3f;
     private float gamePlayingTimer;
     private const float gamePlayingTimerMax = 60f;
+
+    private bool isGamePaused;
     
     private State state;
     
@@ -31,7 +34,17 @@ public class GameManager : Singleton<GameManager>
         base.Awake();
         state = State.WaitingToStart;
     }
-    
+
+    private void Start()
+    {
+        GameInput.Instance.OnPause += OnPause;
+    }
+
+    private void OnPause()
+    {
+        TogglePauseGame();
+    }
+
     private void Update()
     {
         switch (state)
@@ -60,9 +73,16 @@ public class GameManager : Singleton<GameManager>
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
-        Debug.Log(state);
     }
+
+    public void TogglePauseGame()
+    {
+        isGamePaused = !isGamePaused;
+
+        Time.timeScale = isGamePaused ? 0 : 1;
+        OnTogglePause?.Invoke(isGamePaused);
+    }
+
     public float GetCountdownToStartTimer() => countdownToStartTimer;
     public bool IsCountdownToStart() => state == State.CountdownToStart;
     public bool IsGamePlaying() => state == State.GamePlaying;
