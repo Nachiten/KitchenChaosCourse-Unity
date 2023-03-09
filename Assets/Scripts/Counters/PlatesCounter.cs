@@ -18,8 +18,24 @@ public class PlatesCounter : BaseCounter
     {
         // Player needs to not have anything in their hands
         if (player.HasKitchenObject())
-            return;
+        {
+            // I want to try to add the ingredient that the user has to the plate
 
+            // // Spawn tentative plate
+            // KitchenObject kitchenObject = KitchenObject.SpawnKitchenObjectWithoutParent(plateKitchenObjectSO);
+            // kitchenObject.TryGetPlate(out PlateKitchenObject plateKitchenObject);
+            //
+            // if (plateKitchenObject.TryAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
+            // {
+            //     player.GetKitchenObject().DestroySelf();
+            //     kitchenObject.SetKitchenObjectParent(player);
+            // }
+            // else
+            //     Destroy(kitchenObject);
+            
+            return;
+        }
+        
         // There must be at least one plate spawned
         if (platesSpawned == 0)
             return;

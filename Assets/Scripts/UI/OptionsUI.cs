@@ -8,7 +8,7 @@ public class OptionsUI : Singleton<OptionsUI>
     [SerializeField] private Button soundEffectsButton;
     [SerializeField] private Button musicButton;
     [SerializeField] private Button closeButton;
-
+    
     [SerializeField] private TMP_Text soundEffectsText;
     [SerializeField] private TMP_Text musicText;
     

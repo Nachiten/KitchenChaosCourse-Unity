@@ -41,6 +41,14 @@ public class KitchenObject : MonoBehaviour
         return kitchenObject;
     }
     
+    // public static KitchenObject SpawnKitchenObjectWithoutParent(KitchenObjectSO kitchenObjectSO)
+    // {
+    //     Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab, new Vector3(0,-10,0), Quaternion.identity);
+    //     KitchenObject kitchenObject = kitchenObjectTransform.GetComponent<KitchenObject>();
+    //     
+    //     return kitchenObject;
+    // }
+    
     public bool TryGetPlate(out PlateKitchenObject plateKitchenObject)
     {
         if (this is PlateKitchenObject)
