@@ -2,8 +2,20 @@ using UnityEngine;
 
 public class SoundManager : Singleton<SoundManager>
 {
-    [SerializeField] private AudioClipsSO audioClipsSO;
+    private const string PLAYER_PREFS_SOUND_VOLUME_KEY = "SoundEffectsVolume";
     
+    [SerializeField] private AudioClipsSO audioClipsSO;
+
+    private float volume;
+    private const float defaultVolume = 1f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_VOLUME_KEY, defaultVolume);
+    }
+
     private void Start()
     {
         DeliveryManager.Instance.OnRecipeSuccess += OnRecipeSuccess;
@@ -46,18 +58,31 @@ public class SoundManager : Singleton<SoundManager>
         PlaySound(audioClipsSO.deliveryFail, deliveryCounter.transform.position);
     }
     
-    private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f)
+    private void PlaySound(AudioClip audioClip, Vector3 position, float volumeMultiplier = 1f)
     {
-        AudioSource.PlayClipAtPoint(audioClip, position, volume);
+        AudioSource.PlayClipAtPoint(audioClip, position, volumeMultiplier * volume);
     }
     
-    private void PlaySound(AudioClip[] audioClips, Vector3 position, float volume = 1f)
+    private void PlaySound(AudioClip[] audioClips, Vector3 position, float volumeMultiplier = 1f)
     {
-        PlaySound(audioClips[Random.Range(0, audioClips.Length)], position, volume);
+        PlaySound(audioClips[Random.Range(0, audioClips.Length)], position, volumeMultiplier);
     }
     
-    public void PlayFootstepsSound(Vector3 position, float volume = 1f)
+    public void PlayFootstepsSound(Vector3 position, float volumeMultiplier = 1f)
     {
-        PlaySound(audioClipsSO.footstep, position, volume);
+        PlaySound(audioClipsSO.footstep, position, volumeMultiplier);
     }
+
+    public void ChangeVolume()
+    {
+        volume += 0.1f;
+
+        if (volume > 1f)
+            volume = 0f;
+        
+        PlayerPrefs.SetFloat(PLAYER_PREFS_SOUND_VOLUME_KEY, volume);
+        PlayerPrefs.Save();
+    }
+    
+    public float GetVolume() => volume;
 }
