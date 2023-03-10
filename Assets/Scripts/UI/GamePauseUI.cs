@@ -14,17 +14,17 @@ public class GamePauseUI : MonoBehaviour
         mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
         optionsButton.onClick.AddListener(OnOptionsButtonClicked);
         
-        gameObject.SetActive(false);
+        Hide();
     }
 
     private void OnOptionsButtonClicked()
     {
-        OptionsUI.Instance.SetShow(true);
+        Hide();
+        OptionsUI.Instance.Show(Show);
     }
 
     private void OnMainMenuButtonClicked()
     {
-        //GameManager.Instance.TogglePauseGame();
         Loader.Load(Loader.SceneName.MainMenuScene);
     }
 
@@ -35,6 +35,24 @@ public class GamePauseUI : MonoBehaviour
 
     private void OnTogglePause(bool isPaused)
     {
-        gameObject.SetActive(isPaused);
+        if (isPaused)
+        {
+            resumeButton.Select();
+            Show();
+        }
+        else
+        {
+            Hide();
+        }
+    }
+
+    private void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

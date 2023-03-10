@@ -19,7 +19,10 @@ public class GameInput : Singleton<GameInput>
         MOVE_RIGHT,
         INTERACT,
         INTERACT_ALTERNATE,
-        PAUSE
+        PAUSE,
+        GAMEPAD_INTERACT,
+        GAMEPAD_INTERACT_ALTERNATE,
+        GAMEPAD_PAUSE
     }
     
     private PlayerInputActions playerInputActions;
@@ -77,9 +80,14 @@ public class GameInput : Singleton<GameInput>
             Binding.MOVE_DOWN => playerInputActions.Player.MoveNormalized.bindings[2].ToDisplayString(),
             Binding.MOVE_LEFT => playerInputActions.Player.MoveNormalized.bindings[3].ToDisplayString(),
             Binding.MOVE_RIGHT => playerInputActions.Player.MoveNormalized.bindings[4].ToDisplayString(),
+            
             Binding.INTERACT => playerInputActions.Player.Interact.bindings[0].ToDisplayString(),
             Binding.INTERACT_ALTERNATE => playerInputActions.Player.InteractAlternate.bindings[0].ToDisplayString(),
             Binding.PAUSE => playerInputActions.Player.Pause.bindings[0].ToDisplayString(),
+            
+            Binding.GAMEPAD_INTERACT => playerInputActions.Player.Interact.bindings[1].ToDisplayString(),
+            Binding.GAMEPAD_INTERACT_ALTERNATE => playerInputActions.Player.InteractAlternate.bindings[1].ToDisplayString(),
+            Binding.GAMEPAD_PAUSE => playerInputActions.Player.Pause.bindings[1].ToDisplayString(),
             _ => throw new ArgumentOutOfRangeException(nameof(binding), binding, null)
         };
     }
@@ -121,6 +129,18 @@ public class GameInput : Singleton<GameInput>
             case Binding.PAUSE:
                 inputAction = playerInputActions.Player.Pause;
                 bindingIndex = 0;
+                break;
+            case Binding.GAMEPAD_INTERACT:
+                inputAction = playerInputActions.Player.Interact;
+                bindingIndex = 1;
+                break;
+            case Binding.GAMEPAD_INTERACT_ALTERNATE:
+                inputAction = playerInputActions.Player.InteractAlternate;
+                bindingIndex = 1;
+                break;
+            case Binding.GAMEPAD_PAUSE:
+                inputAction = playerInputActions.Player.Pause;
+                bindingIndex = 2;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(binding), binding, null);

@@ -72,15 +72,15 @@ public class Player : Singleton<Player>, IKitchenObjectParent
         for (int index = 0; index < possibleMoveDirs.Count; index++)
         {
             // Player can rotate if they are moving in the x or z direction
-            bool condition = index switch
+            bool extraCondition = index switch
             {
-                1 => moveDir.x != 0,
-                2 => moveDir.z != 0,
+                1 => moveDir.x is < -0.5f or > 0.5f,
+                2 => moveDir.z is < -0.5f or > 0.5f,
                 _ => true
             };
 
             Vector3 dir = possibleMoveDirs[index];
-            canMove = condition && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight,
+            canMove = extraCondition && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight,
                 playerRadius, dir, moveDistance);
 
             if (!canMove)

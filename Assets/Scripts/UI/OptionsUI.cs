@@ -11,6 +11,8 @@ public class OptionsUI : Singleton<OptionsUI>
     
     [SerializeField] private TMP_Text soundEffectsText;
     [SerializeField] private TMP_Text musicText;
+
+    private Action onCloseOptions;
     
     protected override void Awake()
     {
@@ -27,17 +29,19 @@ public class OptionsUI : Singleton<OptionsUI>
         
         UpdateVisual();
         
-        SetShow(false);
+        Hide();
     }
 
     private void OnTogglePause(bool isPaused)
     {
-        if (!isPaused) SetShow(false);
+        if (!isPaused) 
+            Hide();
     }
 
     private void OnCloseButtonClicked()
     {
-        SetShow(false);
+        Hide();
+        onCloseOptions();
     }
 
     private void OnMusicButtonClicked()
@@ -58,8 +62,24 @@ public class OptionsUI : Singleton<OptionsUI>
         musicText.text = "Music: " + Mathf.Round(MusicManager.Instance.GetVolume() * 10f);
     }
 
-    public void SetShow(bool show)
+    // public void SetShow(bool show)
+    // {
+    //     if (show)
+    //         soundEffectsButton.Select();
+    //     
+    //     gameObject.SetActive(show);
+    // }
+    
+    public void Show(Action onCloseOptions)
     {
-        gameObject.SetActive(show);
+        this.onCloseOptions = onCloseOptions;
+        gameObject.SetActive(true);
+        
+        soundEffectsButton.Select();
+    }
+
+    private void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }
