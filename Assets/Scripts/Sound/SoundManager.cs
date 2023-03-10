@@ -73,6 +73,11 @@ public class SoundManager : Singleton<SoundManager>
         PlaySound(audioClipsSO.footstep, position, volumeMultiplier);
     }
 
+    public void PlayCountdownSound()
+    {
+        PlaySound(audioClipsSO.warning, Vector3.zero);
+    }
+
     public void ChangeVolume()
     {
         volume += 0.1f;

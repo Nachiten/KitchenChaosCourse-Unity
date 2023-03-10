@@ -62,17 +62,9 @@ public class OptionsUI : Singleton<OptionsUI>
         musicText.text = "Music: " + Mathf.Round(MusicManager.Instance.GetVolume() * 10f);
     }
 
-    // public void SetShow(bool show)
-    // {
-    //     if (show)
-    //         soundEffectsButton.Select();
-    //     
-    //     gameObject.SetActive(show);
-    // }
-    
-    public void Show(Action onCloseOptions)
+    public void Show(Action _onCloseOptions)
     {
-        this.onCloseOptions = onCloseOptions;
+        onCloseOptions = _onCloseOptions;
         gameObject.SetActive(true);
         
         soundEffectsButton.Select();

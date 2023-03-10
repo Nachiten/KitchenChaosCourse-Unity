@@ -10,9 +10,35 @@ public class PlatesCounter : BaseCounter
     
     private float spawnPlateTimer;
     private const float spawnPlateInterval = 4f;
-
     private int platesSpawned;
     private const int platesSpawnedMax = 4;
+    private bool isGamePlaying;
+    
+    private void Start()
+    {
+        GameManager.Instance.OnStateChanged += OnStateChanged;
+    }
+
+    private void OnStateChanged()
+    {
+        if (!isGamePlaying && GameManager.Instance.IsGamePlaying())
+            isGamePlaying = true;
+    }
+    
+    private void Update()
+    {
+        if (!isGamePlaying || platesSpawned >= platesSpawnedMax) 
+            return;
+        
+        spawnPlateTimer += Time.deltaTime;
+
+        if (spawnPlateTimer < spawnPlateInterval) 
+            return;
+        
+        spawnPlateTimer = 0f;
+        platesSpawned++;
+        OnPlateSpawned?.Invoke();
+    }
     
     public override void Interact(Player player)
     {
@@ -45,21 +71,5 @@ public class PlatesCounter : BaseCounter
         KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player);
         
         OnPlateRemoved?.Invoke();
-    }
-
-    private void Update()
-    {
-        spawnPlateTimer += Time.deltaTime;
-
-        if (!(spawnPlateTimer >= spawnPlateInterval)) 
-            return;
-        
-        spawnPlateTimer = 0f;
-
-        if (platesSpawned >= platesSpawnedMax) 
-            return;
-        platesSpawned++;
-                
-        OnPlateSpawned?.Invoke();
     }
 }

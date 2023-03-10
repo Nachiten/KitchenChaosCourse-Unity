@@ -10,6 +10,7 @@ public class GameInput : Singleton<GameInput>
     public event Action OnInteract;
     public event Action OnInteractAlternate;
     public event Action OnPause;
+    public event Action OnBindingRebind;
 
     public enum Binding
     {
@@ -94,7 +95,6 @@ public class GameInput : Singleton<GameInput>
 
     public void RebindBinding(Binding binding, Action onActionRebound)
     {
-        
         playerInputActions.Player.Disable();
 
         InputAction inputAction;
@@ -154,6 +154,8 @@ public class GameInput : Singleton<GameInput>
                 
                 PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS_KEY, playerInputActions.SaveBindingOverridesAsJson());
                 PlayerPrefs.Save();
+                
+                OnBindingRebind?.Invoke();
             }).Start();
     }
 }

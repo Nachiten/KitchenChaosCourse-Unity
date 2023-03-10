@@ -5,8 +5,7 @@ public class GameManager : Singleton<GameManager>
 {
     public event Action OnStateChanged;
     public event Action<bool> OnTogglePause;
- 
-    private float waitingToStartTimer = 3f;
+    
     private float countdownToStartTimer = 3f;
     private float gamePlayingTimer;
     private const float gamePlayingTimerMax = 60f;
@@ -38,6 +37,13 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         GameInput.Instance.OnPause += OnPause;
+        GameInput.Instance.OnInteract += OnInteract;
+    }
+
+    private void OnInteract()
+    {
+        if (state == State.WaitingToStart)
+            ChangeState(State.CountdownToStart);
     }
 
     private void OnPause()
@@ -50,9 +56,6 @@ public class GameManager : Singleton<GameManager>
         switch (state)
         {
             case State.WaitingToStart:
-                waitingToStartTimer -= Time.deltaTime;
-                if (waitingToStartTimer <= 0)
-                    ChangeState(State.CountdownToStart);
                 break;
             case State.CountdownToStart:
                 countdownToStartTimer -= Time.deltaTime;

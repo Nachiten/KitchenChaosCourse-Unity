@@ -18,6 +18,7 @@ public class DeliveryManager : Singleton<DeliveryManager>
     private const float spawnRecipeInterval = 4f;
     private const int waitingRecipesMax = 4;
     private int successfulRecipesDelivered;
+    private bool isGamePlaying;
 
     protected override void Awake()
     {
@@ -25,8 +26,22 @@ public class DeliveryManager : Singleton<DeliveryManager>
         waitingRecipes = new List<RecipeSO>();
     }
 
+    private void Start()
+    {
+        GameManager.Instance.OnStateChanged += OnStateChanged;
+    }
+
+    private void OnStateChanged()
+    {
+        if (!isGamePlaying && GameManager.Instance.IsGamePlaying())
+            isGamePlaying = true;
+    }
+
     private void Update()
     {
+        if (!isGamePlaying)
+            return;
+        
         spawnRecipeTimer += Time.deltaTime;
 
         if (spawnRecipeTimer < spawnRecipeInterval) 
